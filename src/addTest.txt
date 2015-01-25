@@ -1,4 +1,0 @@
-f0 lin 10 20
-f1 lin 11 30
-f2 add 12 10 11
-f3 out 12
