@@ -1,9 +1,13 @@
 f0 lin 0 5
 f1 lin 1 4
 f2 add 2 0 1
-f3 lin 3 1
-f4 sub 4 2 3
-f5 lin 5 10
-f6 mul 6 5 4
-f7 lin 7 5
-f8 div 8 6 7
+f3 out 2
+f4 lin 3 1
+f5 sub 4 2 3
+f6 out 4
+f7 lin 5 10
+f8 mul 6 5 4
+f9 out 6
+f10 lin 7 5
+f11 div 8 6 7
+f12 out 8
