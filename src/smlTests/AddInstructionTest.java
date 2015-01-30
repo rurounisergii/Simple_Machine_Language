@@ -41,7 +41,7 @@ public class AddInstructionTest {
 	/*
 	 * Add expected final register values to testerRegisters
 	 * Create a Machine and Translator to process the lines written to a file in @Before
-	 * The Machine and Translator should be able to correctly the contained instructions
+	 * The Machine and Translator should be able to correctly process the contained instructions
 	 */
 	@Test
 	public void addTest(){
