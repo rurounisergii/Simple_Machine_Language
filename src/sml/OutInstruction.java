@@ -3,10 +3,6 @@ package sml;
 public class OutInstruction extends Instruction {
 	private int registerToPrint;
 	
-	public OutInstruction(String label, String op) {
-		super(label, op);
-	}
-	
 	public OutInstruction(String label, int register) {
 		super(label, "out");
 		this.registerToPrint = register;

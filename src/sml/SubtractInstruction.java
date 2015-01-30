@@ -5,12 +5,8 @@ public class SubtractInstruction extends Instruction {
 	private int op1;
 	private int op2;
 
-	public SubtractInstruction(String label, String op) {
-		super(label, op);
-	}
-
 	public SubtractInstruction(String label, int result, int op1, int op2) {
-		this(label, "sub");
+		super(label, "sub");
 		this.result = result;
 		this.op1 = op1;
 		this.op2 = op2;

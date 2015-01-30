@@ -5,12 +5,8 @@ public class DivideInstruction extends Instruction {
 	private int op1;
 	private int op2;
 
-	public DivideInstruction(String label, String op) {
-		super(label, op);
-	}
-
 	public DivideInstruction(String label, int result, int op1, int op2) {
-		this(label, "div");
+		super(label, "div");
 		this.result = result;
 		this.op1 = op1;
 		this.op2 = op2;

@@ -5,12 +5,8 @@ public class BnzInstruction extends Instruction {
 	private String newLabel;
 	private int oldRegister;
 
-	public BnzInstruction(String label, String op) {
-		super(label, op);
-	}
-
 	public BnzInstruction(String label, int result, String op1) {
-		this(label, "bnz");
+		super(label, "bnz");
 		this.oldRegister = result;
 		this.newLabel = op1;
 	}
