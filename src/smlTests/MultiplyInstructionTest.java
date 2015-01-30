@@ -44,7 +44,7 @@ public class MultiplyInstructionTest {
 	 * The Machine and Translator should be able to correctly process the contained instructions
 	 */
 	@Test
-	public void addTest(){
+	public void multiplyTest(){
 		testerRegisters.setRegister(0, 5);
 		testerRegisters.setRegister(1, 7);
 		testerRegisters.setRegister(2, 35);

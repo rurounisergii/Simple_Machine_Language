@@ -44,7 +44,7 @@ public class SubtractInstructionTest {
 	 * The Machine and Translator should be able to correctly process the contained instructions
 	 */
 	@Test
-	public void addTest(){
+	public void subtractTest(){
 		testerRegisters.setRegister(0, 30);
 		testerRegisters.setRegister(1, 16);
 		testerRegisters.setRegister(2, 14);
