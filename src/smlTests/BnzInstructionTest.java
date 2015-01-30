@@ -8,7 +8,6 @@ import java.io.*;
 public class BnzInstructionTest {
 	private String fileName = "src" + File.separator + "bnzTest.txt";
 	private File file;
-	private Registers testerRegisters = new Registers();
 	private Machine testerMachine;
 		
 	/*
