@@ -82,6 +82,8 @@ public class Translator {
 			return null;
 
 		String ins = scan();
+		
+		/*
 		switch (ins) {
 		case "add":
 			r = scanInt();
@@ -115,6 +117,7 @@ public class Translator {
 			s1 = scanInt();
 			return new LinInstruction(label, r, s1);
 		}
+		*/
 		return null;
 	}
 
