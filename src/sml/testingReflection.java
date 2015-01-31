@@ -1,6 +1,7 @@
 package sml;
 
 import java.io.File;
+import java.io.FilenameFilter;
 
 public class testingReflection {
 	public static void main(String[] args){
@@ -9,12 +10,26 @@ public class testingReflection {
 	}
 	public void launch(){
 		File file = new File("src/sml/");
-		String[] filesInPackage = file.list();
-		for(String x : filesInPackage){
+		FilenameFilter fileFilter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				if (name.lastIndexOf(".") > 0){
+					String fileType = name.substring(name.lastIndexOf("."));
+					if (fileType != ".java"){
+						return false;
+					}
+					if (name.substring(0,1).equals("A")){
+						return true;
+					}
+				}
+				return false;
+			}
+		};
+
+		File[] filesInPackage = file.listFiles(fileFilter);
+		for(File x : filesInPackage){
 			System.out.println(x);
 		}
-		file.delete();
-		
-		
+		file.delete();	
 	}
 }
+
