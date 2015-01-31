@@ -58,7 +58,13 @@ public class testingReflection {
 				Object d;
 				try {
 					d = clazz.getConstructor(types1).newInstance(arguments);
-					clazz = (sml.MultiplyInstruction) d;
+					System.out.println("stuck: " + d);
+					Machine m = new Machine();
+					System.out.println(d.getClass().getName());
+					Instruction dinstruction = (Instruction) d;
+					System.out.println("d type: " + dinstruction.getClass().getName());
+					
+					
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -72,7 +78,7 @@ public class testingReflection {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("Consturcot 2: "+ d);
+
 			} catch (NoSuchMethodException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
