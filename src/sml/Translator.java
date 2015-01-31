@@ -13,6 +13,7 @@ import java.util.Scanner;
  */
 public class Translator {
 	Constructor[] allConstructors;
+	Constructor correctConstructor;
 	Class[]constructorParameters;
 	Object[] constructorArguments;
 	// word + line is the part of the current line that's not yet processed
@@ -77,10 +78,6 @@ public class Translator {
 	// removed. Translate line into an instruction with label label
 	// and return the instruction
 	public Instruction getInstruction(String label) {
-		int s1; // Possible operands of the instruction
-		int s2;
-		int r;
-		String newLabel;
 		
 		if (line.equals("")){
 			return null;
@@ -91,26 +88,34 @@ public class Translator {
 		String className = "sml" + File.separator + newins + "Instruction";
 		try{
 			Class instructionClass = Class.forName(className);
+			getParamArgumentsAndTypes();
+			Constructor[] allConstructors = instructionClass.getDeclaredConstructors();
+			obtainCorrectConstructor(allConstructors);
+			
+			
+			
 		} catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}
-		
-		
-		while (line != ""){
-			String operandOrLabel = scan();
-			if (isLabel(operandOrLabel)){
-				parametersScanned.add("Label");
+		return null;
+	}
+	
+	public void obtainCorrectConstructor(Constructor[] constructors){
+		Class[] tempConstructorParaMeters;
+		for (Constructor c: constructors){
+			tempConstructorParaMeters = c.getParameterTypes();
+			if (tempConstructorParaMeters.equals(this.constructorParameters)){
+				correctConstructor = c;
+				break;
 			}
-			else{
-				parametersScanned.add("int");
-			}
+			
 		}
-		
 	}
 	
 	/*
 	 * A method that scans the remaining line to determine what the Argument Types
 	 * will be for the constructor of the Instruction Class that needs to be made
+	 * The Argument data types as well as the actual arguments are saved to 2 global arrays
 	 * 
 	 */
 	public void getParamArgumentsAndTypes(){
