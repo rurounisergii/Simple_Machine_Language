@@ -2,7 +2,9 @@ package sml;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -78,10 +80,31 @@ public class Translator {
 		int r;
 		String newLabel;
 
-		if (line.equals(""))
+
+		if (line.equals("")){
 			return null;
+		}
 
 		String ins = scan();
+		String className = ins + "Instruction";
+		try{
+			Class instructionClass = Class.forName(className);
+		} catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		List<String> parametersScanned = new ArrayList<String>();
+		while (line != ""){
+			String operandOrLabel = scan();
+			if (isLabel(operandOrLabel)){
+				parametersScanned.add("Label");
+			}
+			else{
+				parametersScanned.add("int");
+			}
+		}
+		
+		
 		
 		/*
 		switch (ins) {
@@ -152,5 +175,17 @@ public class Translator {
 		} catch (NumberFormatException e) {
 			return Integer.MAX_VALUE;
 		}
+	}
+	
+	/*
+	 * A method for checking whether a String is a label
+	 * @param String - the possible label
+	 * @return - true or false depending on whether the String represents a label
+	 */
+	public boolean isLabel(String possibleLabel){
+		if (labels.indexOf(possibleLabel) != -1){
+			return true;
+		}
+		return false;
 	}
 }
