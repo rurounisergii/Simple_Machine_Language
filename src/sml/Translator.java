@@ -86,7 +86,8 @@ public class Translator {
 		}
 
 		String ins = scan();
-		String className = ins + "Instruction";
+		String newins = (ins.substring(0,1)).toUpperCase() + ins.substring(1);
+		String className = "sml." + newins + "Instruction";
 		try{
 			Class instructionClass = Class.forName(className);
 		} catch(ClassNotFoundException e){

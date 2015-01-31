@@ -10,14 +10,14 @@ public class testingReflection {
 	}
 	public void launch(){
 		File file = new File("src/sml/");
-		FilenameFilter fileFilter = new FilenameFilter() {
+		FilenameFilter fileFilterer = new FilenameFilter() {
 			public boolean accept(File dir, String name) {
 				if (name.lastIndexOf(".") > 0){
 					String fileType = name.substring(name.lastIndexOf("."));
-					if (fileType != ".java"){
+					if (!fileType.equals(".java")){
 						return false;
 					}
-					if (name.substring(0,1).equals("A")){
+					else if (name.indexOf("Instruction") != -1){
 						return true;
 					}
 				}
@@ -25,11 +25,15 @@ public class testingReflection {
 			}
 		};
 
-		File[] filesInPackage = file.listFiles(fileFilter);
-		for(File x : filesInPackage){
+		
+
+		String[] filesInPackage = file.list(fileFilterer);
+		for(String x : filesInPackage){
 			System.out.println(x);
 		}
 		file.delete();	
+	
+		System.out.println(this.getClass());
 	}
 }
 
