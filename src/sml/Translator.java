@@ -79,22 +79,24 @@ public class Translator {
 		int s2;
 		int r;
 		String newLabel;
-
-
+		Constructor[] allConstructors;
+		Class[]constructorParameters;
+		Object[] constructorArguments;
+		
 		if (line.equals("")){
 			return null;
 		}
 
 		String ins = scan();
 		String newins = (ins.substring(0,1)).toUpperCase() + ins.substring(1);
-		String className = "sml." + newins + "Instruction";
+		String className = "sml" + File.separator + newins + "Instruction";
 		try{
 			Class instructionClass = Class.forName(className);
 		} catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}
 		
-		List<String> parametersScanned = new ArrayList<String>();
+		
 		while (line != ""){
 			String operandOrLabel = scan();
 			if (isLabel(operandOrLabel)){
@@ -105,46 +107,32 @@ public class Translator {
 			}
 		}
 		
-		
-		
-		/*
-		switch (ins) {
-		case "add":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new AddInstruction(label, r, s1, s2);
-		case "sub":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new SubtractInstruction(label, r, s1, s2);
-		case "mul":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new MultiplyInstruction(label, r, s1, s2);
-		case "div":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new DivideInstruction(label, r, s1, s2);
-		case "out":
-			r = scanInt();
-			return new OutInstruction(label, r);
-		case "bnz":
-			r = scanInt();
-			newLabel = scan();
-			return new BnzInstruction(label, r, newLabel);
-		case "lin":
-			r = scanInt();
-			s1 = scanInt();
-			return new LinInstruction(label, r, s1);
-		}
-		*/
-		return null;
+	}
+	
+	/*
+	 * A method that scans the remaining line to determine what the Argument Types
+	 * will be for the constructor of the Instruction Class that needs to be made
+	 * 
+	 */
+	public void getParamArgumentsAndTypes(){
+		int counter = 0;
+		ArrayList<Class> paraMeterTypes = new ArrayList<Class>();
+		ArrayList<Object> arguments = new ArrayList<Object>();
+	
 	}
 
+	/*
+	 * A method for checking whether a String is a label
+	 * @param String - the possible label
+	 * @return - true or false depending on whether the String represents a label
+	 */
+	public boolean isLabel(String possibleLabel){
+		if (labels.indexOf(possibleLabel) != -1){
+			return true;
+		}
+		return false;
+	}
+	
 	/*
 	 * Return the first word of line and remove it from line. If there is no
 	 * word, return ""
@@ -178,15 +166,5 @@ public class Translator {
 		}
 	}
 	
-	/*
-	 * A method for checking whether a String is a label
-	 * @param String - the possible label
-	 * @return - true or false depending on whether the String represents a label
-	 */
-	public boolean isLabel(String possibleLabel){
-		if (labels.indexOf(possibleLabel) != -1){
-			return true;
-		}
-		return false;
-	}
+
 }
