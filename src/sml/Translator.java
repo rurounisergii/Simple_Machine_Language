@@ -13,9 +13,8 @@ import java.util.Scanner;
  * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
  */
 public class Translator {
-	Constructor[] allConstructors;
-	Class[]constructorParameters;
-	Object[] constructorArguments;
+	private Class[]constructorParameters;
+	private Object[] constructorArguments;
 	// word + line is the part of the current line that's not yet processed
 	// word has no whitespace
 	// If word and line are not empty, line begins with whitespace
@@ -85,7 +84,7 @@ public class Translator {
 
 		String ins = scan();
 		String newins = (ins.substring(0,1)).toUpperCase() + ins.substring(1);
-		String className = "sml" + File.separator + newins + "Instruction";
+		String className = "sml." + newins + "Instruction";
 		try{
 			Class instructionClass = Class.forName(className);
 			getParamArgumentsAndTypes();
