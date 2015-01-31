@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class Translator {
 	private Class[]constructorParameters;
 	private Object[] constructorArguments;
+	private int arraySize;
 	// word + line is the part of the current line that's not yet processed
 	// word has no whitespace
 	// If word and line are not empty, line begins with whitespace
@@ -87,6 +88,7 @@ public class Translator {
 		String className = "sml." + newins + "Instruction";
 		try{
 			Class instructionClass = Class.forName(className);
+			this.arraySize = ((line.split(" ")).length);
 			getParamArgumentsAndTypes();
 			Constructor correctConstructor = instructionClass.getConstructor(constructorParameters);
 			Object instanceFromConstructor = correctConstructor.newInstance(constructorArguments);
@@ -127,16 +129,19 @@ public class Translator {
 		int counter = 0;
 		ArrayList<Class> paraMeterTypesList = new ArrayList<Class>();
 		ArrayList<Object> constructorArgumentsList = new ArrayList<Object>();
+		constructorParameters = new Class[this.arraySize];
 		do{
 				String stringOrInt = scan();
 				if (isLabel(stringOrInt)){
-					paraMeterTypesList.add(counter, String.class);
+					//paraMeterTypesList.add(counter, String.class);
+					constructorParameters[counter] = String.class;
 					constructorArgumentsList.add(counter, stringOrInt);
 					counter++;
 				}
 				else{
 					int intRegister = scanInt(stringOrInt);
-					paraMeterTypesList.add(counter, Integer.TYPE);
+					//paraMeterTypesList.add(counter, Integer.TYPE);
+					constructorParameters[counter] = Integer.TYPE;
 					constructorArgumentsList.add(counter, intRegister);
 					counter++;					
 				}
