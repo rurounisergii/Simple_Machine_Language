@@ -2,6 +2,8 @@ package sml;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 public class testingReflection {
 	public static void main(String[] args){
@@ -34,6 +36,24 @@ public class testingReflection {
 		file.delete();	
 	
 		System.out.println(this.getClass());
+		
+		try {
+			Class<?> clazz = Class.forName("sml.MultiplyInstruction");
+			Constructor[] allConstructors = clazz.getDeclaredConstructors(); 
+			ArrayList<Object> parameterHolder = new ArrayList<Object>();
+			parameterHolder.add("String");
+			parameterHolder.add(new Integer(4));
+			parameterHolder.add(new Integer(4));
+			parameterHolder.add(new Integer(4));
+			
+			for (Constructor x : allConstructors){
+				System.out.println(x);
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
 
