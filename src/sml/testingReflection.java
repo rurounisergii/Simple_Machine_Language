@@ -40,12 +40,38 @@ public class testingReflection {
 		try {
 			Class<?> clazz = Class.forName("sml.MultiplyInstruction");
 			Constructor[] allConstructors = clazz.getDeclaredConstructors(); 
-			ArrayList<Object> parameterHolder = new ArrayList<Object>();
-			parameterHolder.add("String");
-			parameterHolder.add(new Integer(4));
-			parameterHolder.add(new Integer(4));
-			parameterHolder.add(new Integer(4));
+			Class[] constructParaneters = allConstructors[0].getParameterTypes();
+			try {
+				Constructor c = clazz.getConstructor(new Class[]{String.class, Integer.TYPE, Integer.TYPE, Integer.TYPE});
+				System.out.println("Consturcot: "+ c);
+				Class[] types1 = new Class[4];
+				types1[0] = String.class;
+				types1[1] = Integer.TYPE;
+				types1[2] = Integer.TYPE;
+				types1[3] = Integer.TYPE;
+				Constructor d = clazz.getConstructor(types1);
+				System.out.println("Consturcot: "+ d);
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
+			
+			/*Object[] parameterHolder = new Object[4];
+			parameterHolder[0] = ("String");
+			parameterHolder[1] = (new Integer(4));
+			parameterHolder[2] = (new Integer(4));
+			parameterHolder[3] = (new Integer(4));
+			
+			Class[] classTypes = new Class[parameterHolder.size()];
+			for (int x = 0; x < parameterHolder.length; x++){
+				Class<?> c = Class.forName(parameterHolder[x]);
+				classTypes[x] = c.getClass();
+			}
+			*/
 			for (Constructor x : allConstructors){
 				System.out.println(x);
 			}
