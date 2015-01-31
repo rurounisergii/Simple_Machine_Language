@@ -12,7 +12,9 @@ import java.util.Scanner;
  * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
  */
 public class Translator {
-
+	Constructor[] allConstructors;
+	Class[]constructorParameters;
+	Object[] constructorArguments;
 	// word + line is the part of the current line that's not yet processed
 	// word has no whitespace
 	// If word and line are not empty, line begins with whitespace
@@ -79,9 +81,6 @@ public class Translator {
 		int s2;
 		int r;
 		String newLabel;
-		Constructor[] allConstructors;
-		Class[]constructorParameters;
-		Object[] constructorArguments;
 		
 		if (line.equals("")){
 			return null;
@@ -116,9 +115,24 @@ public class Translator {
 	 */
 	public void getParamArgumentsAndTypes(){
 		int counter = 0;
-		ArrayList<Class> paraMeterTypes = new ArrayList<Class>();
-		ArrayList<Object> arguments = new ArrayList<Object>();
-	
+		ArrayList<Class> paraMeterTypesList = new ArrayList<Class>();
+		ArrayList<Object> constructorArgumentsList = new ArrayList<Object>();
+		do{
+				String stringOrInt = scan();
+				if (isLabel(stringOrInt)){
+					paraMeterTypesList.add(counter, String.class);
+					constructorArgumentsList.add(counter, stringOrInt);
+					counter++;
+				}
+				else{
+					int intRegister = scanInt(stringOrInt);
+					paraMeterTypesList.add(counter, Integer.TYPE);
+					constructorArgumentsList.add(counter, intRegister);
+					counter++;					
+				}
+		} while (line != "");
+		constructorArguments = constructorArgumentsList.toArray();
+		constructorParameters = (Class[]) paraMeterTypesList.toArray();	
 	}
 
 	/*
@@ -130,8 +144,11 @@ public class Translator {
 		if (labels.indexOf(possibleLabel) != -1){
 			return true;
 		}
+		
 		return false;
 	}
+	
+
 	
 	/*
 	 * Return the first word of line and remove it from line. If there is no
@@ -153,14 +170,12 @@ public class Translator {
 
 	// Return the first word of line as an integer. If there is
 	// any error, return the maximum int
-	private int scanInt() {
-		String word = scan();
-		if (word.length() == 0) {
+	private int scanInt(String intString) {
+		if (intString.length() == 0) {
 			return Integer.MAX_VALUE;
 		}
-
 		try {
-			return Integer.parseInt(word);
+			return Integer.parseInt(intString);
 		} catch (NumberFormatException e) {
 			return Integer.MAX_VALUE;
 		}
