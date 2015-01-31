@@ -3,6 +3,7 @@ package sml;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -89,14 +90,27 @@ public class Translator {
 			Class instructionClass = Class.forName(className);
 			getParamArgumentsAndTypes();
 			Constructor correctConstructor = instructionClass.getConstructor(constructorParameters);
-			
-			
+			Object instanceFromConstructor = correctConstructor.newInstance(constructorArguments);
+			Instruction instructionToReturn = (Instruction) instanceFromConstructor;
+			return instructionToReturn;
 		} catch(ClassNotFoundException e){
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
