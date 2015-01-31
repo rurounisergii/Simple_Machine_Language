@@ -13,7 +13,6 @@ import java.util.Scanner;
  */
 public class Translator {
 	Constructor[] allConstructors;
-	Constructor correctConstructor;
 	Class[]constructorParameters;
 	Object[] constructorArguments;
 	// word + line is the part of the current line that's not yet processed
@@ -89,29 +88,22 @@ public class Translator {
 		try{
 			Class instructionClass = Class.forName(className);
 			getParamArgumentsAndTypes();
-			Constructor[] allConstructors = instructionClass.getDeclaredConstructors();
-			obtainCorrectConstructor(allConstructors);
-			
+			Constructor correctConstructor = instructionClass.getConstructor(constructorParameters);
 			
 			
 		} catch(ClassNotFoundException e){
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 	
-	public void obtainCorrectConstructor(Constructor[] constructors){
-		Class[] tempConstructorParaMeters;
-		for (Constructor c: constructors){
-			tempConstructorParaMeters = c.getParameterTypes();
-			if (tempConstructorParaMeters.equals(this.constructorParameters)){
-				correctConstructor = c;
-				break;
-			}
-			
-		}
-	}
-	
+
 	/*
 	 * A method that scans the remaining line to determine what the Argument Types
 	 * will be for the constructor of the Instruction Class that needs to be made
