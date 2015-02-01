@@ -25,7 +25,7 @@ public class OutInstructionTest {
 			ex.printStackTrace();
 			} 	
 			System.out.println("This is a non-junit test to test the Out Instruction");
-			System.out.println("I expect the number 12 to be printed on the console:");
+			System.out.println("I expect the number 20 to be printed on the console:");
 			testerMachine = new Machine();
 			Translator TranslatorTester = new Translator("outTest.txt");
 			TranslatorTester.readAndTranslate(testerMachine.getLabels(), testerMachine.getProg());

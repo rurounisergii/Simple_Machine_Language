@@ -78,8 +78,8 @@ public class Translator {
 	// and return the instruction
 	public Instruction getInstruction(String label) {
 		//Split the line to determine how many registers there are. The number of registers + Label 
-		//make up the number of parameters for an instruction constructor. One of the words in line is the opcode 
-		//which is not a parameter so subtract 1 to determine the size of the arrays for holding Constructor parameters
+		//make up the number of parameters for an instruction constructor. The scan method leaves a blank space at start of line 
+		//which is not a parameter so subtract 1 to determine the actual size of the arrays for holding Constructor parameters
 		this.arraySize = ((line.split("\\s+")).length) -1; //\\s+ : regular expression for whitespace
 		constructorParameters = new Class[arraySize];
 		constructorArguments = new Object[arraySize];
@@ -107,22 +107,16 @@ public class Translator {
 		} catch(ClassNotFoundException e){
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

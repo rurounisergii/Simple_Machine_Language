@@ -6,6 +6,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+
+/**
+ * 
+ * @author Sergio
+ *This file is not part of the program. I used it to experiment with different reflection ideas when i was trying to figure
+ *out how to implement the program. I am keeping it for future reference as it contains ideas i might reuse. 
+ 
 public class testingReflection {
 	public static void main(String[] args){
 		testingReflection launcher = new testingReflection();
@@ -37,9 +44,9 @@ public class testingReflection {
 		file.delete();	
 	
 		System.out.println(this.getClass());
-		String classname = "sml.MultiplyInstruction";
+		String classname = "sml.MulInstruction";
 		try {
-			Class<?> clazz = Class.forName("sml.MultiplyInstruction");
+			Class<?> clazz = Class.forName("sml.MulInstruction");
 			Constructor[] allConstructors = clazz.getDeclaredConstructors(); 
 			Class[] constructParaneters = allConstructors[0].getParameterTypes();
 			try {
@@ -99,4 +106,5 @@ public class testingReflection {
 		
 	}
 }
+*/
 
