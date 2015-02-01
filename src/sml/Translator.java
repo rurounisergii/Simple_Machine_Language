@@ -16,6 +16,7 @@ public class Translator {
 	private Class[]constructorParameters;
 	private Object[] constructorArguments;
 	private int arraySize;
+	private String opcode;
 	// word + line is the part of the current line that's not yet processed
 	// word has no whitespace
 	// If word and line are not empty, line begins with whitespace
@@ -47,12 +48,11 @@ public class Translator {
 			} catch (NoSuchElementException ioE) {
 				return false;
 			}
-
 			// Each iteration processes line and reads the next line into line
 			while (line != null) {
 				// Store the label in label
 				String label = scan();
-
+				System.out.println("label:"+ label);
 				if (label.length() > 0) {
 					Instruction ins = getInstruction(label);
 					if (ins != null) {
@@ -78,17 +78,24 @@ public class Translator {
 	// removed. Translate line into an instruction with label label
 	// and return the instruction
 	public Instruction getInstruction(String label) {
-		
+		this.arraySize = ((line.split("\\s+")).length) -1;
+		System.out.println("array size:" + arraySize);
+		constructorParameters = new Class[arraySize];
+		constructorArguments = new Object[arraySize];
+		constructorParameters[0] = String.class;
+		constructorArguments[0] = label;
 		if (line.equals("")){
 			return null;
 		}
 
-		String ins = scan();
-		String newins = (ins.substring(0,1)).toUpperCase() + ins.substring(1);
-		String className = "sml." + newins + "Instruction";
+		String opcode = scan();
+		System.out.println("opcode + " + opcode);
+		String newopcode = (opcode.substring(0,1)).toUpperCase() + opcode.substring(1);
+		System.out.println(newopcode);
+		String className = "sml." + newopcode + "Instruction";
+		System.out.println(className);
 		try{
 			Class instructionClass = Class.forName(className);
-			this.arraySize = ((line.split(" ")).length);
 			getParamArgumentsAndTypes();
 			Constructor correctConstructor = instructionClass.getConstructor(constructorParameters);
 			Object instanceFromConstructor = correctConstructor.newInstance(constructorArguments);
@@ -126,28 +133,24 @@ public class Translator {
 	 * 
 	 */
 	public void getParamArgumentsAndTypes(){
-		int counter = 0;
-		ArrayList<Class> paraMeterTypesList = new ArrayList<Class>();
-		ArrayList<Object> constructorArgumentsList = new ArrayList<Object>();
-		constructorParameters = new Class[this.arraySize];
-		do{
-				String stringOrInt = scan();
+		String stringOrInt;
+		int counter = 1;
+		 while ((stringOrInt = scan()) != ""){
+				System.out.println(stringOrInt);
+				System.out.println("doing");
 				if (isLabel(stringOrInt)){
-					//paraMeterTypesList.add(counter, String.class);
 					constructorParameters[counter] = String.class;
-					constructorArgumentsList.add(counter, stringOrInt);
+					constructorArguments[counter] = stringOrInt;
 					counter++;
 				}
 				else{
 					int intRegister = scanInt(stringOrInt);
-					//paraMeterTypesList.add(counter, Integer.TYPE);
 					constructorParameters[counter] = Integer.TYPE;
-					constructorArgumentsList.add(counter, intRegister);
+					constructorArguments[counter] = intRegister;
 					counter++;					
 				}
-		} while (line != "");
-		constructorArguments = constructorArgumentsList.toArray();
-		constructorParameters = (Class[]) paraMeterTypesList.toArray();	
+		}
+		 System.out.println("ending");
 	}
 
 	/*
