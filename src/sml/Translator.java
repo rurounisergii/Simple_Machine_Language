@@ -13,10 +13,10 @@ import java.util.Scanner;
  * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
  */
 public class Translator {
-	private Class[]constructorParameters;
-	private Object[] constructorArguments;
-	private int arraySize;
-	private String opcode;
+	private Class[]constructorParameters; //Holds the Data Type for each parameter in the constructor of an instruction
+	private Object[] constructorArguments; //Holds the registers and Label read from a line that will be passed as actual parameters to an instruction
+	private int arraySize; //used to determine the size of constructorParameters and constructorArguments 
+	private String opcode; //the opcode for an instruction
 	// word + line is the part of the current line that's not yet processed
 	// word has no whitespace
 	// If word and line are not empty, line begins with whitespace
@@ -52,7 +52,6 @@ public class Translator {
 			while (line != null) {
 				// Store the label in label
 				String label = scan();
-				System.out.println("label:"+ label);
 				if (label.length() > 0) {
 					Instruction ins = getInstruction(label);
 					if (ins != null) {
@@ -78,25 +77,29 @@ public class Translator {
 	// removed. Translate line into an instruction with label label
 	// and return the instruction
 	public Instruction getInstruction(String label) {
-		this.arraySize = ((line.split("\\s+")).length) -1;
-		System.out.println("array size:" + arraySize);
+		//Split the line to determine how many registers there are. The number of registers + Label 
+		//make up the number of parameters for an instruction constructor. One of the words in line is the opcode 
+		//which is not a parameter so subtract 1 to determine the size of the arrays for holding Constructor parameters
+		this.arraySize = ((line.split("\\s+")).length) -1; //\\s+ : regular expression for whitespace
 		constructorParameters = new Class[arraySize];
 		constructorArguments = new Object[arraySize];
+		//The first parameter of all instructions is the Label. Now that the two arrays above have been initialised
+		//this information about Label can be added
 		constructorParameters[0] = String.class;
 		constructorArguments[0] = label;
+		
 		if (line.equals("")){
 			return null;
 		}
-
+		
+		//Scan the opcode and change the first letter to UpperCase to get correct Instruction Class name
 		String opcode = scan();
-		System.out.println("opcode + " + opcode);
 		String newopcode = (opcode.substring(0,1)).toUpperCase() + opcode.substring(1);
-		System.out.println(newopcode);
 		String className = "sml." + newopcode + "Instruction";
-		System.out.println(className);
+
 		try{
 			Class instructionClass = Class.forName(className);
-			getParamArgumentsAndTypes();
+			getParamArgumentsAndTypes(); //determine what arguments will be passed to the instruction constructor 
 			Constructor correctConstructor = instructionClass.getConstructor(constructorParameters);
 			Object instanceFromConstructor = correctConstructor.newInstance(constructorArguments);
 			Instruction instructionToReturn = (Instruction) instanceFromConstructor;
@@ -127,30 +130,27 @@ public class Translator {
 	
 
 	/*
-	 * A method that scans the remaining line to determine what the Argument Types
+	 * A method that scans the remaining line to determine what the argument data types
 	 * will be for the constructor of the Instruction Class that needs to be made
-	 * The Argument data types as well as the actual arguments are saved to 2 global arrays
+	 * The  data-type information as well as the actual arguments are saved to 2 global arrays
 	 * 
 	 */
 	public void getParamArgumentsAndTypes(){
 		String stringOrInt;
-		int counter = 1;
+		int counter = 1; //counter starts at 1 as the Label information has been added to position 0
 		 while ((stringOrInt = scan()) != ""){
-				System.out.println(stringOrInt);
-				System.out.println("doing");
-				if (isLabel(stringOrInt)){
+				if (isLabel(stringOrInt)){  //if the scanned word is a label, then its data type is String
 					constructorParameters[counter] = String.class;
 					constructorArguments[counter] = stringOrInt;
 					counter++;
 				}
-				else{
-					int intRegister = scanInt(stringOrInt);
+				else{ //if the scanned word is not a Label, it must be a register and is therefore an int
+					int intRegister = Integer.parseInt(stringOrInt); 
 					constructorParameters[counter] = Integer.TYPE;
 					constructorArguments[counter] = intRegister;
 					counter++;					
 				}
 		}
-		 System.out.println("ending");
 	}
 
 	/*
@@ -162,11 +162,8 @@ public class Translator {
 		if (labels.indexOf(possibleLabel) != -1){
 			return true;
 		}
-		
 		return false;
 	}
-	
-
 	
 	/*
 	 * Return the first word of line and remove it from line. If there is no
@@ -176,7 +173,6 @@ public class Translator {
 		line = line.trim();
 		if (line.length() == 0)
 			return "";
-
 		int i = 0;
 		while (i < line.length() && line.charAt(i) != ' ' && line.charAt(i) != '\t') {
 			i = i + 1;
@@ -185,19 +181,5 @@ public class Translator {
 		line = line.substring(i);
 		return word;
 	}
-
-	// Return the first word of line as an integer. If there is
-	// any error, return the maximum int
-	private int scanInt(String intString) {
-		if (intString.length() == 0) {
-			return Integer.MAX_VALUE;
-		}
-		try {
-			return Integer.parseInt(intString);
-		} catch (NumberFormatException e) {
-			return Integer.MAX_VALUE;
-		}
-	}
-	
 
 }
